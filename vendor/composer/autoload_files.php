@@ -50,4 +50,5 @@ return array(
     'ef157334f1067da991ff8953983afdb3' => $baseDir . '/app/Helpers/helper.php',
     '5e5c123e1e032fca6d350adc0f007b00' => $baseDir . '/Modules/GlobalSetting/app/Helpers/helpers.php',
     '293d9bea9432c804939c2264df2e4ac3' => $baseDir . '/Modules/CustomMenu/app/Helpers/helper.php',
+    '6398bcc795163d4ba623f21949d7df88' => $baseDir . '/app/Helpers/Bengali.php',
 );

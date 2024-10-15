@@ -95,85 +95,85 @@
 
                 <!-- search dropdown start -->
                 <div class="bg-gray-200 text-gray-700 py-4">
-                    <div class="container mx-auto flex justify-end items-center space-x-4 gap-5 px-4">
-                        <div class="w-full flex items-center gap-5">
-                            <input type="text" name="search" id="search" placeholder="অনুসন্ধান করুন"
-                                class="w-full px-3 py-[6px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
-
-                            <button class="py-[5px] px-4 button_style rounded"
-                                onclick="window.location='./search.html'">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-
-                        @php
-
-                            $districts = App\Models\State::get();
-                            $thanas = App\Models\City::get();
-                        @endphp
-                        <div class="flex items-center gap-5 max-[768px]:hidden">
-                            <!-- First Dropdown -->
-                            <div class="flex space-x-2 items-center">
-                                <label for="district" class="text-gray-800">জেলা</label>
-                                <select id="district" class="border border-gray-400 rounded py-1 px-2">
-                                    <option disabled selected value="1">জেলা</option>
-                                    @foreach ($districts as $dis)
-                                        <option value="{{ $dis->name }}">{{ $dis->name }}</option>
-                                    @endforeach
-                                </select>
-                                <button class="py-[5px] px-4 button_style rounded"
-                                    onclick="window.location='./search.html'">
+                    <form action="{{ route('search') }}">
+                        <div class="container mx-auto flex justify-end items-center space-x-4 gap-5 px-4">
+                            <div class="w-full flex items-center gap-5">
+                                <input type="text" name="search" id="search" placeholder="অনুসন্ধান করুন"
+                                    class="w-full px-3 py-[6px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                <button class="py-[5px] px-4 button_style rounded" type="submit">
                                     <i class="fas fa-search"></i>
                                 </button>
                             </div>
 
-                            <!-- Second Dropdown -->
-                            <div class="flex space-x-2 items-center">
-                                <label for="subdistrict" class="text-gray-800">
-                                    উপজেলা
-                                </label>
-                                <select id="subdistrict" class="border border-gray-400 rounded py-1 px-2">
-                                    <option disabled selected value="1">উপজেলা</option>
-                                    @foreach ($thanas as $thana)
-                                        <option value="{{ $thana->name }}">{{ $thana->name }}</option>
-                                    @endforeach
-                                </select>
-                                <button class="py-[5px] px-4 button_style rounded"
-                                    onclick="window.location='./search.html'">
-                                    <i class="fas fa-search"></i>
-                                </button>
+                            @php
+
+                                $districts = App\Models\State::get();
+                                $thanas = App\Models\City::get();
+                            @endphp
+
+
+                            <div class="flex items-center gap-5 max-[768px]:hidden">
+                                <!-- First Dropdown -->
+                                <div class="flex space-x-2 items-center">
+                                    <label for="district" class="text-gray-800">জেলা</label>
+                                    <select id="district" name="district"
+                                        class="border border-gray-400 rounded py-1 px-2">
+                                        <option disabled selected value="1">জেলা</option>
+                                        @foreach ($districts as $dis)
+                                            <option value="{{ $dis->name }}">{{ $dis->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button class="py-[5px] px-4 button_style rounded" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+
+                                <!-- Second Dropdown -->
+                                <div class="flex space-x-2 items-center">
+                                    <label for="subdistrict" class="text-gray-800">
+                                        উপজেলা
+                                    </label>
+                                    <select id="subdistrict" name="thana"
+                                        class="border border-gray-400 rounded py-1 px-2">
+                                        <option disabled selected value="1">উপজেলা</option>
+                                        @foreach ($thanas as $thana)
+                                            <option value="{{ $thana->name }}">{{ $thana->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <button class="py-[5px] px-4 button_style rounded" type="submit">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
                             </div>
+
+                            <!--  -->
                         </div>
-                        <!--  -->
-                    </div>
+                    </form>
                 </div>
                 <!-- search dropdown end -->
+
+                @php
+                    $news = Modules\Blog\app\Models\News::orderBy('id', 'desc')
+                        ->where('status', 1)
+                        ->where('news_ticker', 1)
+                        ->take(5)
+                        ->get();
+                @endphp
+
 
                 <!-- Scrolling Text start -->
                 <div class="bg-gray-100 py-2">
                     <div class="container mx-auto">
                         <marquee class="text-gray-700 text-sm" onmouseover="this.stop()" onmouseout="this.start()">
                             <ul class="flex items-center gap-10">
-                                <li class="list-disc">
-                                    <a href="./fulldetails.html" class="hover:text-[#ff5f15]">
-                                        সেগমেন্ট গাজীপুরিয়া যুব ফাউন্ডেশন চ্যাম্পিয়ন
-                                    </a>
-                                </li>
-                                <li class="list-disc">
-                                    <a href="./fulldetails.html" class="hover:text-[#ff5f15]">
-                                        সেগমেন্ট গাজীপুরিয়া যুব ফাউন্ডেশন চ্যাম্পিয়ন
-                                    </a>
-                                </li>
-                                <li class="list-disc">
-                                    <a href="./fulldetails.html" class="hover:text-[#ff5f15]">
-                                        সেগমেন্ট গাজীপুরিয়া যুব ফাউন্ডেশন চ্যাম্পিয়ন
-                                    </a>
-                                </li>
-                                <li class="list-disc">
-                                    <a href="./fulldetails.html" class="hover:text-[#ff5f15]">
-                                        সেগমেন্ট গাজীপুরিয়া যুব ফাউন্ডেশন চ্যাম্পিয়ন
-                                    </a>
-                                </li>
+                                @foreach ($news as $post)
+                                    <li class="list-disc">
+                                        <a href="{{ route('news.details', $post->slug) }}"
+                                            class="hover:text-[#ff5f15]">
+                                            {{ $post->title }}
+                                        </a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </marquee>
                     </div>

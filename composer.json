@@ -51,7 +51,8 @@
         "files": [
             "app/Helpers/helper.php",
             "Modules/GlobalSetting/app/Helpers/helpers.php",
-            "Modules/CustomMenu/app/Helpers/helper.php"
+            "Modules/CustomMenu/app/Helpers/helper.php",
+            "app/Helpers/Bengali.php"
         ]
     },
     "autoload-dev": {

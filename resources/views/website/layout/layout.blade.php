@@ -24,7 +24,12 @@
 
     <!-- JS start -->
     <script src="{{ asset('website/js/main.js') }}"></script>
+
     <!-- JS start -->
+
+    <script></script>
+
+    @stack('scripts')
 </body>
 
 </html>
