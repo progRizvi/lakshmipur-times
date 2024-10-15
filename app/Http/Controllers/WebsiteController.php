@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Rules\CustomRecaptcha;
 use Illuminate\Http\Request;
+use Modules\Blog\app\Models\Category;
 use Modules\Blog\app\Models\News;
 use Modules\Blog\app\Models\NewsComment;
 use Modules\GlobalSetting\app\Models\Setting;
@@ -24,6 +25,18 @@ class WebsiteController extends Controller
     {
         $news = News::where('slug', $slug)->where('status', 1)->firstOrFail();
         return view('website.news-details', compact('news'));
+    }
+
+    public function category($slug)
+    {
+        $category = Category::where('slug', $slug)->where('status', 1)->firstOrFail();
+        $news = $category->news()->paginate(1);
+        $title = $category->title;
+
+        if (request()->ajax()) {
+            return view('components.news-pagination', compact('news'))->render();
+        }
+        return view('website.search', compact('category', 'news', 'title'));
     }
 
     public function commentPost(Request $request)
