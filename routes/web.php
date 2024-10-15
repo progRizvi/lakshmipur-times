@@ -13,6 +13,8 @@ Route::get('/search', [WebsiteController::class, 'search'])->name('search');
 Route::get('/category/{slug}', [WebsiteController::class, 'category'])->name('category');
 Route::get('/news/{slug}', [WebsiteController::class, 'newsDetails'])->name('news.details');
 Route::post('/comment/post', [WebsiteController::class, 'commentPost'])->name('comment.post');
+Route::get('pages/{slug}', [WebsiteController::class, 'pages'])->name('pages');
+Route::get('team', [WebsiteController::class, 'team'])->name('team');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
