@@ -12,6 +12,8 @@ class GlobalSettingInfoSeeder extends Seeder
      */
     public function run(): void
     {
+        Setting::truncate();
+
         $setting_data = [
             'app_name' => 'Lakshmipur Times',
             'editor' => 'Lakshmipur Times',
