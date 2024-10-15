@@ -1,0 +1,35 @@
+{
+    "name": "nwidart/filemanager",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nicolas Widart",
+            "email": "n.widart@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\FileManager\\": "",
+            "Modules\\FileManager\\App\\": "app/",
+            "Modules\\FileManager\\Database\\Factories\\": "database/factories/",
+            "Modules\\FileManager\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\FileManager\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "unisharp/laravel-filemanager": "^2.9",
+        "intervention/image-laravel": "^1.2"
+    }
+}

@@ -1,0 +1,17 @@
+{
+    "Language": true,
+    "Blog": true,
+    "GlobalSetting": true,
+    "Currency": true,
+    "BasicPayment": true,
+    "PaymentGateway": true,
+    "PageBuilder": true,
+    "ContactMessage": true,
+    "LiveChat": true,
+    "OurTeam": true,
+    "Installer": false,
+    "FileManager": true,
+    "CustomMenu": true,
+    "SocialLink": true,
+    "Tax": true
+}
