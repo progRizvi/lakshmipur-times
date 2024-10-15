@@ -99,7 +99,9 @@
                     <!-- comment section start -->
                     <div class="mt-10 p-4 w-full bg-white shadow-lg rounded-lg">
                         <!-- Comment form -->
-                        <form action="">
+                        <form action="" id="blogCommentForm" method="POST">
+                            <input type="hidden" name="news_id" value="{{ $news->id }}">
+                            <input type='hidden' name='parent_id' value='0'>
                             <div class="mb-3 flex max-[600px]:flex-col items-center justify-between gap-3">
                                 <div class="w-full">
                                     <input required
@@ -111,11 +113,6 @@
                                         class="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                         type="email" name="email" id="email" placeholder="Enter Your E-mail" />
                                 </div>
-                                <div class="w-full">
-                                    <input
-                                        class="w-full px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                        type="number" name="number" id="number" placeholder="Enter Your Number" />
-                                </div>
                             </div>
 
                             <div class="mb-6">
@@ -123,9 +120,9 @@
                                 <div class="space-y-4">
                                     <textarea
                                         class="w-full h-24 p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-                                        placeholder="Write your comment here..."></textarea>
+                                        placeholder="Write your comment here..." name="comment"></textarea>
                                     <div class="flex justify-end">
-                                        <button type="submit" class="px-4 py-2 button_style">
+                                        <button type="submit" class="px-4 py-2 button_style common_btn">
                                             Post Comment
                                         </button>
                                     </div>
@@ -136,89 +133,41 @@
                         <!-- Comment list -->
                         <div class="space-y-6">
                             <!-- Comment Item -->
-                            <div class="flex items-start space-x-4">
-                                <img class="w-10 h-10 rounded-full" src="https://via.placeholder.com/50"
-                                    alt="User Avatar" />
-                                <div class="flex-1 bg-gray-100 p-3 rounded-lg">
-                                    <div class="flex justify-between items-center">
-                                        <h3 class="text-sm font-semibold">John Doe</h3>
-                                        <span class="text-xs text-gray-500">2 hours ago</span>
-                                    </div>
-                                    <p class="mt-2 text-gray-700 max-[500px]:text-sm">
-                                        This is a sample comment. Nice feature you've built
-                                        here!
-                                    </p>
 
-                                    <!-- Reply form -->
-                                    <div class="mt-4">
-                                        <h4 class="text-sm font-semibold mb-2">Reply</h4>
-                                        <form class="space-y-2">
-                                            <textarea
-                                                class="w-full h-16 p-2 resize-none border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                                placeholder="Write your reply here..."></textarea>
-                                            <div class="flex justify-end">
-                                                <button type="submit"
-                                                    class="px-3 py-1 bg-gray-500 text-white font-semibold rounded-md shadow-md hover:bg-gray-600 transition">
-                                                    Post Reply
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+                            @php
+                                $parentsComment = $news->comments->where('parent_id', 0);
+                            @endphp
 
-                            <!-- Another Comment Item -->
-                            <div class="flex items-start space-x-4">
-                                <img class="w-10 h-10 rounded-full" src="https://via.placeholder.com/50"
-                                    alt="User Avatar" />
-                                <div class="flex-1 bg-gray-100 p-3 rounded-lg">
-                                    <div class="flex justify-between items-center">
-                                        <h3 class="text-sm font-semibold">Jane Smith</h3>
-                                        <span class="text-xs text-gray-500">1 day ago</span>
-                                    </div>
-                                    <p class="mt-2 text-gray-700 max-[500px]:text-sm">
-                                        I really like this feature! Looking forward to using it
-                                        more.
-                                    </p>
-
-                                    <!-- Replies Section -->
-                                    <div class="mt-4 space-y-4">
-                                        <!-- Reply Item -->
-                                        <div class="flex items-start gap-2">
-                                            <img class="w-8 h-8 rounded-full" src="https://via.placeholder.com/40"
-                                                alt="User Avatar" />
-                                            <div class="flex-1 bg-gray-200 p-3 rounded-lg">
-                                                <div
-                                                    class="flex max-[500px]:flex-col justify-between items-center max-[500px]:justify-start max-[500px]:items-start">
-                                                    <h4 class="text-xs font-semibold">Michael Lee</h4>
-                                                    <span class="text-xs text-gray-500">
-                                                        5 hours ago
-                                                    </span>
-                                                </div>
-                                                <p class="mt-1 text-gray-700 max-[500px]:text-sm">
-                                                    I agree with you! It's a useful feature.
-                                                </p>
-                                            </div>
+                            @foreach ($parentsComment as $comment)
+                                <div class="flex items-start space-x-4">
+                                    <img class="w-10 h-10 rounded-full" src="{{ asset($setting->default_avatar) }}"
+                                        alt="User Avatar" />
+                                    <div class="flex-1 bg-gray-100 p-3 rounded-lg">
+                                        <div class="flex justify-between items-center">
+                                            <h3 class="text-sm font-semibold">{{ $comment->name }}</h3>
+                                            <span class="text-xs text-gray-500">
+                                                {{ $comment->created_at->diffForHumans() }}
+                                            </span>
                                         </div>
+                                        <p class="mt-2 text-gray-700 max-[500px]:text-sm">
+                                            {{ $comment->comment }}
+                                        </p>
 
                                         <!-- Reply form -->
-                                        <div>
-                                            <h4 class="text-sm font-semibold mb-2">Reply</h4>
-                                            <form class="space-y-2">
-                                                <textarea
-                                                    class="w-full h-16 p-2 resize-none border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                                    placeholder="Write your reply here..."></textarea>
-                                                <div class="flex justify-end">
-                                                    <button type="submit"
-                                                        class="px-3 py-1 bg-gray-500 text-white font-semibold rounded-md shadow-md hover:bg-gray-600 transition">
-                                                        Post Reply
-                                                    </button>
-                                                </div>
-                                            </form>
+                                        <div class="mt-4">
+                                            <a href="#blogCommentForm" data-id="{{ $comment->id }}" class="reply">
+                                                <span><i class="fas fa-share"></i></span>
+                                                {{ __('Reply') }}</a>
+                                        </div>
+
+                                        <div class="mt-4 space-y-4">
+                                            @include('components.comment-reply', [
+                                                'replies' => $comment->children,
+                                            ])
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                     <!-- comment section end -->
@@ -228,3 +177,67 @@
         </div>
     </section>
 @endsection
+
+
+
+@push('scripts')
+    <script>
+        (function($) {
+            "use strict";
+            $(document).ready(function() {
+                $("#blogCommentForm").on('submit', function(e) {
+                    e.preventDefault();
+                    if ($("#g-recaptcha-response").val() === '') {
+                        e.preventDefault();
+                        @if ($setting->recaptcha_status == 'active')
+                            toastr.error("Please complete the recaptcha to submit the form")
+                            return;
+                        @endif
+                    }
+                    $.ajax({
+                        type: 'POST',
+                        data: $('#blogCommentForm').serialize(),
+                        url: "{{ route('comment.post') }}",
+                        beforeSend: function() {
+                            $(".common_btn").attr("disabled", true);
+                            $(".common_btn").html(
+                                '<i class="fas fa-spinner fa-spin"></i> {{ ' ' . __('Submitting') }}...'
+                            );
+                        },
+                        success: function(response) {
+                            if (response.status == 1) {
+                                toastr.success(response.message)
+                                $("#blogCommentForm").trigger("reset");
+                                $(".common_btn").attr("disabled", false);
+                                $(".common_btn").html('{{ __('Submit comment') }}');
+                            }
+                        },
+                        error: function(response) {
+                            if (response.responseJSON.errors.name) toastr.error(response
+                                .responseJSON.errors.name[0])
+                            if (response.responseJSON.errors.email) toastr.error(response
+                                .responseJSON.errors.email[0])
+                            if (response.responseJSON.errors.comment) toastr.error(response
+                                .responseJSON.errors.comment[0])
+
+                            if (!response.responseJSON.errors.name || !response.responseJSON
+                                .errors.email || !response.responseJSON.errors.comment) {
+                                toastr.error(
+                                    "{{ __('Please complete the recaptcha to submit the form') }}"
+                                )
+                            }
+                            $(".common_btn").attr("disabled", false);
+                            $(".common_btn").html('{{ __('Submit Comment') }}');
+                        }
+                    });
+                })
+
+                $('.reply').on('click', function() {
+                    const parentId = $(this).data('id');
+                    console.log(parentId);
+                    $("[name='parent_id']").val(parentId);
+                })
+            });
+        })(jQuery);
+    </script>
+@endpush

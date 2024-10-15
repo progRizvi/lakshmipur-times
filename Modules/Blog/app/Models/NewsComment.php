@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class NewsCategory extends Model
+class NewsComment extends Model
 {
     use HasFactory;
 
@@ -15,6 +15,7 @@ class NewsCategory extends Model
      */
     protected $fillable = [
         'comment',
+        'parent_id',
         'name',
         'news_id',
         'email',
@@ -24,5 +25,15 @@ class NewsCategory extends Model
     public function post(): ?BelongsTo
     {
         return $this->belongsTo(News::class, 'news_id');
+    }
+
+    public function parent(): ?BelongsTo
+    {
+        return $this->belongsTo(NewsComment::class, 'parent_id')->where('status', 1);
+    }
+
+    public function children()
+    {
+        return $this->hasMany(NewsComment::class, 'parent_id')->where('status', 1);
     }
 }

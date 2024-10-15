@@ -41,7 +41,7 @@ class News extends Model
 
     public function comments(): ?HasMany
     {
-        return $this->hasMany(NewsCategory::class, 'news_id');
+        return $this->hasMany(NewsComment::class, 'news_id');
     }
 
 
