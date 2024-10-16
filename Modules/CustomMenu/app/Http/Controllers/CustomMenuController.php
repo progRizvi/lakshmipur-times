@@ -7,18 +7,21 @@ use App\Http\Controllers\Controller;
 use App\Traits\RedirectHelperTrait;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Modules\CustomMenu\app\Enums\DefaultMenusEnum;
 use Modules\CustomMenu\app\Models\Menu;
 use Modules\CustomMenu\app\Models\MenuItem;
 use Modules\Language\app\Enums\TranslationModels;
 use Modules\Language\app\Traits\GenerateTranslationTrait;
 
-class CustomMenuController extends Controller {
+class CustomMenuController extends Controller
+{
     use GenerateTranslationTrait, RedirectHelperTrait;
     /**
      * Display a listing of the resource.
      */
-    public function index() {
+    public function index()
+    {
         checkAdminHasPermissionAndThrowException('menu.view');
         $menus = Menu::get();
         $languages = allLanguages();
@@ -36,7 +39,8 @@ class CustomMenuController extends Controller {
         return view('custommenu::index', compact('menus', 'languages', 'defaultMenuItemList', 'select_menu', 'menuItems'));
     }
 
-    public function addMenuItem() {
+    public function addMenuItem()
+    {
         checkAdminHasPermissionAndThrowException('menu.create');
 
         try {
@@ -59,10 +63,11 @@ class CustomMenuController extends Controller {
 
             return response()->json(['success' => true, 'data' => ['id' => $menuItem->id, 'label' => $menuItem->label]]);
         } catch (Exception $e) {
-            return response()->json(['success' => false,'message'=>$e->getMessage()]);
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
         }
     }
-    public function updateMenuName() {
+    public function updateMenuName()
+    {
         checkAdminHasPermissionAndThrowException('menu.update');
         try {
             $id = request()->input("id");
@@ -88,7 +93,8 @@ class CustomMenuController extends Controller {
             return response()->json(['success' => false]);
         }
     }
-    public function updateMenu() {
+    public function updateMenu()
+    {
         checkAdminHasPermissionAndThrowException('menu.update');
         $menuItems = request()->input('data');
         try {
@@ -103,7 +109,8 @@ class CustomMenuController extends Controller {
         }
     }
 
-    private function updateMenuRecursive(array $menuItemData, $parentId = null, $sortOrder = 1) {
+    private function updateMenuRecursive(array $menuItemData, $parentId = null, $sortOrder = 1)
+    {
         $menuItem = MenuItem::find($menuItemData["id"]);
         $menuItem->parent_id = $parentId;
         $menuItem->sort = $sortOrder;
@@ -117,7 +124,8 @@ class CustomMenuController extends Controller {
         }
     }
 
-    public function updateMenuItem(Request $request) {
+    public function updateMenuItem(Request $request)
+    {
         checkAdminHasPermissionAndThrowException('menu.update');
 
         try {
@@ -141,7 +149,8 @@ class CustomMenuController extends Controller {
         }
     }
 
-    public function deleteMenuItem(Request $request) {
+    public function deleteMenuItem(Request $request)
+    {
         checkAdminHasPermissionAndThrowException('menu.delete');
         $menuItem = MenuItem::find($request->id);
         try {
@@ -156,7 +165,8 @@ class CustomMenuController extends Controller {
         }
     }
 
-    private function deleteWithChildren($menuItem) {
+    private function deleteWithChildren($menuItem)
+    {
         if ($menuItem->child()->exists()) {
             foreach ($menuItem->child as $child) {
                 $this->deleteWithChildren($child);
@@ -165,7 +175,8 @@ class CustomMenuController extends Controller {
         }
         $menuItem->delete();
     }
-    private function menuCacheForget() {
-        cache()->forget('mainMenu');
+    private function menuCacheForget()
+    {
+        Artisan::call('optimize:clear');
     }
 }

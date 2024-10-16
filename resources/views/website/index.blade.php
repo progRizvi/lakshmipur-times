@@ -15,21 +15,21 @@
                         </div>
                         <!-- top news -->
                         <div>
-                            <a href="./fulldetails.html"
+
+                            <a href="{{ route('news.details', $mostLatestNews->slug) }}"
                                 class="flex max-[768px]:flex-col-reverse items-start justify-between gap-4 hover:[&>div>img]:scale-110 news_card_hover">
                                 <div class="w-1/2 max-[768px]:w-full">
                                     <h1
                                         class="text-3xl max-[768px]:text-xl max-[768px]:font-bold leading-[46px] mb-3 transition-all duration-300">
-                                        গাজীপুরে মহাসড়কে শ্রমিকদের বিক্ষোভ, তীব্র যানজট
+                                        {{ $mostLatestNews->title }}
                                     </h1>
-                                    <p class="text-lg max-[768px]:text-base leading-7">
-                                        গাজীপুরের চান্দনা চৌরাস্তা এলাকায় ঢাকা ময়মনসিংহ সড়ক
-                                        অবরোধ করে বিক্ষোভ করছেন পোশাক কারখানার শ্রমিকরা...
+                                    <p class="text-lg max-[768px]:text-base leading-7 truncate">
+                                        {!! Str::limit($mostLatestNews->short_description, 100) !!}
                                     </p>
                                 </div>
                                 <div class="w-1/2 max-[768px]:w-full overflow-hidden">
                                     <img class="w-full transition-all duration-500"
-                                        src="../src/images/road-20241001114634.webp" alt="" />
+                                        src="{{ asset($mostLatestNews->image) }}" alt="" />
                                 </div>
                             </a>
                         </div>
@@ -38,24 +38,26 @@
                         <!-- top news - 2 -->
                         <div class="flex max-[768px]:flex-col items-start justify-between gap-3">
                             <!-- 1 -->
-                            <div class="border-r-2 border-gray-300 pr-2">
-                                <a href="./fulldetails.html" class="flex items-start justify-between gap-4 news_card_hover">
-                                    <div class="w-1/2">
-                                        <h1 class="text-sm mb-2 font-bold">
-                                            গাজীপুরে মহাসড়কে শ্রমিকদের বিক্ষোভ, তীব্র যানজট
-                                        </h1>
-                                        <p class="text-xs font-semibold max-[768px]:font-normal leading-5">
-                                            গাজীপুরের চান্দনা চৌরাস্তা এলাকায় ঢাকা ময়মনসিংহ
-                                            সড়ক...
-                                        </p>
-                                    </div>
-                                    <div class="w-1/2 h-full">
-                                        <img src="../src/images/road-20241001114634.webp" alt="" />
-                                    </div>
-                                </a>
-                            </div>
+                            @foreach ($secondMost as $post)
+                                <div class="{{ $secondMost->count() == 2 && 'border-r-2 border-gray-300' }} pr-2">
+                                    <a href="{{ route('news.details', $post->slug) }}"
+                                        class="flex items-start justify-between gap-4 news_card_hover">
+                                        <div class="w-1/2">
+                                            <h1 class="text-sm mb-2 font-bold">
+                                                {{ $post->title }}
+                                            </h1>
+                                            <p class="text-xs font-semibold max-[768px]:font-normal leading-5">
+                                                {!! Str::limit($post->short_description, 100) !!}
+                                            </p>
+                                        </div>
+                                        <div class="w-1/2 h-full">
+                                            <img src="{{ asset($post->image) }}" alt="" />
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
                             <!-- 2 -->
-                            <div class="border-r-2 border-gray-300 pr-2">
+                            {{-- <div class="border-r-2 border-gray-300 pr-2">
                                 <a href="./fulldetails.html" class="flex items-start justify-between gap-4 news_card_hover">
                                     <div class="w-1/2">
                                         <h1 class="text-sm mb-2 font-bold">
@@ -70,7 +72,7 @@
                                         <img src="../src/images/road-20241001114634.webp" alt="" />
                                     </div>
                                 </a>
-                            </div>
+                            </div> --}}
                         </div>
                         <hr class="my-5 h-[2px] bg-gray-300" />
 

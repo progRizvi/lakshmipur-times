@@ -15,7 +15,7 @@
                         {{ $post->title }}
                     </h2>
                     <p class="text-sm truncate">
-                        {!! Str::limit($post->description, 100) !!}
+                        {!! Str::limit($post->short_description, 100) !!}
                     </p>
                     <p class="text-right">
                         {{ $post->created_at->diffForHumans() }}

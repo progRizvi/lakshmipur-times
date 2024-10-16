@@ -15,7 +15,9 @@ class WebsiteController extends Controller
 {
     public function home()
     {
-        return view('website.index');
+        $mostLatestNews = News::where('status', 1)->where('latest', 1)->orderBy('id', 'desc')->first();
+        $secondMost = News::where('status', 1)->where('latest', 1)->orderBy('id', 'desc')->skip(1)->limit(2)->get();
+        return view('website.index', compact('mostLatestNews', 'secondMost'));
     }
 
     public function search()
