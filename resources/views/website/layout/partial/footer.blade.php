@@ -66,16 +66,17 @@
                             <span class="mr-2">
                                 <i class="fas fa-mobile-alt"></i>
                             </span>
-                            <a href="tel:+8801998304701" class="hover:underline hover:primary_text_color">
-                                +৮৮০ ১৯৯৮ ৩০৪৭০১
+                            <a href="tel:{{ $setting->whatsapp }}" class="hover:underline hover:primary_text_color">
+                                {{ $setting->phone }}
                             </a>
                         </p>
                         <p class="flex items-center">
                             <span class="mr-2">
                                 <i class="fab fa-whatsapp"></i>
                             </span>
-                            <a href="https://wa.me/01998304701" class="hover:underline hover:primary_text_color">
-                                +৮৮০ ১৯৯৮ ৩০৪৭০১
+                            <a href="https://wa.me/{{ $setting->whatsapp }}"
+                                class="hover:underline hover:primary_text_color">
+                                {{ $setting->whatsapp }}
                             </a>
                         </p>
                         <p class="flex items-center">
