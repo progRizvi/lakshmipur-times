@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Video;
 use App\Rules\CustomRecaptcha;
 use Illuminate\Http\Request;
 use Modules\Blog\app\Models\Category;
@@ -18,7 +19,8 @@ class WebsiteController extends Controller
         $mostLatestNews = News::where('status', 1)->where('latest', 1)->orderBy('id', 'desc')->first();
         $secondMost = News::where('status', 1)->where('latest', 1)->orderBy('id', 'desc')->skip(1)->limit(2)->get();
         $newses = News::where('status', 1)->where('show_homepage', 1)->orderBy('id', 'desc')->skip(3)->limit(6)->get();
-        return view('website.index', compact('mostLatestNews', 'secondMost', 'newses'));
+        $videos = Video::where('status', 1)->get();
+        return view('website.index', compact('mostLatestNews', 'secondMost', 'newses', 'videos'));
     }
 
     public function search()

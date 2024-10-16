@@ -29,7 +29,7 @@
                                 </div>
                                 <div class="w-1/2 max-[768px]:w-full overflow-hidden">
                                     <img class="w-full transition-all duration-500"
-                                        src="{{ asset($mostLatestNews->image) }}" alt="" />
+                                        src="{{ asset($mostLatestNews->image) }}" alt="{{ $mostLatestNews->title }}" />
                                 </div>
                             </a>
                         </div>
@@ -51,7 +51,7 @@
                                             </p>
                                         </div>
                                         <div class="w-1/2 h-full">
-                                            <img src="{{ asset($post->image) }}" alt="" />
+                                            <img src="{{ asset($post->image) }}" alt="{{ $post->title }}" />
                                         </div>
                                     </a>
                                 </div>
@@ -113,46 +113,19 @@
                     <div>
                         <div class="grid grid-cols-3 max-[768px]:grid-cols-1 items-start justify-between gap-5">
                             <!-- 1 -->
-                            <div class="w-full">
-                                <iframe width="100%" height="300"
-                                    src="https://www.youtube.com/embed/AyAr9oGM0vI?si=Oa5eghNdqXfNwNBQ"
-                                    title="YouTube video player" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
+                            @foreach ($videos as $video)
+                                @php
+                                    $videoId = explode('v=', $video->link)[1];
+                                @endphp
+                                <div class="w-full">
+                                    <iframe width="100%" height="300"
+                                        src="https://www.youtube.com/embed/{{ $videoId }}"
+                                        title="YouTube video player" frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                                </div>
+                            @endforeach
                             <!-- 2 -->
-                            <div class="w-full">
-                                <iframe width="100%" height="315"
-                                    src="https://www.youtube.com/embed/AyAr9oGM0vI?si=Oa5eghNdqXfNwNBQ"
-                                    title="YouTube video player" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <!-- 3 -->
-                            <div class="w-full">
-                                <iframe width="100%" height="315"
-                                    src="https://www.youtube.com/embed/AyAr9oGM0vI?si=Oa5eghNdqXfNwNBQ"
-                                    title="YouTube video player" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <!-- 4 -->
-                            <div class="w-full">
-                                <iframe width="100%" height="315"
-                                    src="https://www.youtube.com/embed/AyAr9oGM0vI?si=Oa5eghNdqXfNwNBQ"
-                                    title="YouTube video player" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <!-- 5 -->
-                            <div class="w-full">
-                                <iframe width="100%" height="315"
-                                    src="https://www.youtube.com/embed/AyAr9oGM0vI?si=Oa5eghNdqXfNwNBQ"
-                                    title="YouTube video player" frameborder="0"
-                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                            </div>
-                            <!-- 6 -->
                         </div>
                         <!-- more button start -->
                         <div class="text-center mt-5">
