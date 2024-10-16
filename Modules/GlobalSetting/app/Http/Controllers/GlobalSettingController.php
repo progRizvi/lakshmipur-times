@@ -33,7 +33,7 @@ class GlobalSettingController extends Controller
         $all_time_format = WebsiteSettingEnum::allTimeFormat();
         $all_date_format = WebsiteSettingEnum::allDateFormat();
 
-        return view('globalsetting::settings.index', compact('custom_paginations','all_timezones', 'all_time_format', 'all_date_format'));
+        return view('globalsetting::settings.index', compact('custom_paginations', 'all_timezones', 'all_time_format', 'all_date_format'));
     }
 
     public function update_general_setting(Request $request)
@@ -41,21 +41,18 @@ class GlobalSettingController extends Controller
         checkAdminHasPermissionAndThrowException('setting.update');
 
         $request->validate([
-            'app_name'               => 'sometimes',
-            'timezone'               => 'sometimes',
-            'contact_message_receiver_mail' => 'sometimes|email',
-            'is_queable'             => 'sometimes|in:active,inactive',
-            'comments_auto_approved' => 'sometimes|in:active,inactive',
+            'app_name'               => 'required',
+            'editor'               => 'required',
+            'address'               => 'required',
+            'email'               => 'required',
         ], [
             'app_name.required'         => __('App name is required'),
-            'timezone.required'         => __('Timezone is required'),
-            'is_queable.required'       => __('Queue is required'),
-            'contact_message_receiver_mail.email' => __('The contact message receiver mail must be a valid email address.'),
-            'is_queable.in'             => __('Queue is invalid'),
-            'comments_auto_approved.in' => __('Review auto approved is invalid'),
+            'editor.required'         => __('Editor Name is required'),
+            'address.required'         => __('Address is required'),
+            'email.required'         => __('Email is required'),
         ]);
 
-        foreach ($request->except('_token') as $key => $value) {
+        foreach ($request->only('app_name', 'editor', 'address', 'email', 'whatsapp', 'phone') as $key => $value) {
             Setting::where('key', $key)->update(['value' => $value]);
         }
 
@@ -170,7 +167,6 @@ class GlobalSettingController extends Controller
         $notification = ['messege' => $notification, 'alert-type' => 'success'];
 
         return redirect()->back()->with($notification);
-
     }
 
     public function update_default_avatar(Request $request)
@@ -188,7 +184,6 @@ class GlobalSettingController extends Controller
         $notification = ['messege' => $notification, 'alert-type' => 'success'];
 
         return redirect()->back()->with($notification);
-
     }
 
     public function update_breadcrumb(Request $request)
@@ -257,7 +252,8 @@ class GlobalSettingController extends Controller
 
         return redirect()->back()->with($notification);
     }
-    public function update_google_tag(Request $request) {
+    public function update_google_tag(Request $request)
+    {
         checkAdminHasPermissionAndThrowException('setting.update');
         $request->validate([
             'googel_tag_status' => 'required',
@@ -381,7 +377,6 @@ class GlobalSettingController extends Controller
         $notification = ['messege' => $notification, 'alert-type' => 'success'];
 
         return redirect()->back()->with($notification);
-
     }
 
     public function update_pusher(Request $request)
@@ -447,7 +442,6 @@ class GlobalSettingController extends Controller
         $notification = ['messege' => $notification, 'alert-type' => 'success'];
 
         return redirect()->back()->with($notification);
-
     }
 
     public function cache_clear()
@@ -475,7 +469,8 @@ class GlobalSettingController extends Controller
         return view('globalsetting::database_clear');
     }
 
-    public function database_clear_success(Request $request) {
+    public function database_clear_success(Request $request)
+    {
         checkAdminHasPermissionAndThrowException('setting.update');
 
         $request->validate(['password' => 'required'], ['password.required' => __('Password is required')]);
@@ -487,17 +482,16 @@ class GlobalSettingController extends Controller
 
             $notification = __('Database Cleared Successfully');
             $notification = ['messege' => $notification, 'alert-type' => 'success'];
-
         } else {
             $notification = __('Passwords do not match.');
             $notification = ['messege' => $notification, 'alert-type' => 'error'];
         }
 
         return redirect()->back()->with($notification);
-
     }
 
-    public function customCode($type) {
+    public function customCode($type)
+    {
         checkAdminHasPermissionAndThrowException('setting.view');
         $customCode = CustomCode::first();
         if (! $customCode) {
@@ -508,10 +502,11 @@ class GlobalSettingController extends Controller
             $customCode->footer_javascript = '//write your javascript here without the script tag';
             $customCode->save();
         }
-        return view('globalsetting::custom_code_'.$type, compact('customCode'));
+        return view('globalsetting::custom_code_' . $type, compact('customCode'));
     }
 
-    public function customCodeUpdate(Request $request) {
+    public function customCodeUpdate(Request $request)
+    {
         checkAdminHasPermissionAndThrowException('setting.update');
         $validatedData = $request->validate([
             'css'               => 'sometimes',
@@ -547,7 +542,8 @@ class GlobalSettingController extends Controller
         ]);
     }
 
-    public function update_maintenance_mode(Request $request) {
+    public function update_maintenance_mode(Request $request)
+    {
         checkAdminHasPermissionAndThrowException('setting.update');
 
         $request->validate([

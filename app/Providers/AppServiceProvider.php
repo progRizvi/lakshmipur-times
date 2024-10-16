@@ -17,10 +17,7 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
-    {
-
-    }
+    public function register(): void {}
 
     /**
      * Bootstrap any application services.
@@ -39,29 +36,10 @@ class AppServiceProvider extends ServiceProvider
                 return $setting;
             });
 
-            // Setup mail configuration
-            $mailConfig = [
-                'transport'  => 'smtp',
-                'host'       => $setting?->mail_host,
-                'port'       => $setting?->mail_port,
-                'encryption' => $setting?->mail_encryption,
-                'username'   => $setting?->mail_username,
-                'password'   => $setting?->mail_password,
-                'timeout'    => null,
-            ];
-
-            config(['mail.mailers.smtp' => $mailConfig]);
-            config(['mail.from.address' => $setting?->mail_sender_email]);
-            config(['mail.from.name' => $setting?->mail_sender_name]);
 
             // setup timezone globally
             config(['app.timezone' => $setting?->timezone]);
 
-            config(['broadcasting.connections.pusher.key' => $setting?->pusher_app_key]);
-            config(['broadcasting.connections.pusher.secret' => $setting?->pusher_app_secret]);
-            config(['broadcasting.connections.pusher.app_id' => $setting?->pusher_app_id]);
-            config(['broadcasting.connections.pusher.options.cluster' => $setting?->pusher_app_cluster]);
-            config(['broadcasting.connections.pusher.options.host' => 'api-'.$setting?->pusher_app_cluster.'.pusher.com']);
 
             Cache::rememberForever('CustomPagination', function () {
                 $custom_pagination = CustomPagination::all();
@@ -70,7 +48,6 @@ class AppServiceProvider extends ServiceProvider
                     $pagination[str_replace(' ', '_', strtolower($item?->section_name))] = $item?->item_qty;
                 }
                 $pagination = (object) $pagination;
-
                 return $pagination;
             });
         } catch (Exception $ex) {
@@ -79,7 +56,6 @@ class AppServiceProvider extends ServiceProvider
         }
 
         View::composer('*', function ($view) {
-
             $setting = Cache::get('setting');
 
             $view->with('setting', $setting);

@@ -26,10 +26,7 @@
                                     @include('globalsetting::settings.sections.general')
                                     @include('globalsetting::settings.sections.website')
                                     @include('globalsetting::settings.sections.logo-favicon')
-                                    @include('globalsetting::settings.sections.cookie')
-                                    @include('globalsetting::settings.sections.custom-paginate')
                                     @include('globalsetting::settings.sections.default-avatar')
-                                    @include('globalsetting::settings.sections.breadcrump')
                                     @include('globalsetting::settings.sections.copyright')
                                     @include('globalsetting::settings.sections.maintenance-mode')
                                 </div>
