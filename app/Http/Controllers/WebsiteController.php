@@ -114,4 +114,9 @@ class WebsiteController extends Controller
         $teams = OurTeam::where('status', 'active')->get();
         return view('website.team', compact('teams'));
     }
+
+    public function contact()
+    {
+        return view('website.contact');
+    }
 }

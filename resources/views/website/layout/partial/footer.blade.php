@@ -66,7 +66,7 @@
                             <span class="mr-2">
                                 <i class="fas fa-mobile-alt"></i>
                             </span>
-                            <a href="tel:{{ $setting->whatsapp }}" class="hover:underline hover:primary_text_color">
+                            <a href="tel:{{ $setting->phone }}" class="hover:underline hover:primary_text_color">
                                 {{ $setting->phone }}
                             </a>
                         </p>
