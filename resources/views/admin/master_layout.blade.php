@@ -114,9 +114,6 @@
                 <div class="footer-left">
                     {{ $setting->copyright_text }}
                 </div>
-                <div class="footer-right">
-                    <span>{{ __('version') }}: {{ $setting->version ?? '' }}</span>
-                </div>
             </footer>
 
         </div>

@@ -4,7 +4,8 @@
         @method('PUT')
         <div class="form-group">
             <x-admin.form-textarea id="copyright_text" name="copyright_text" label="{{ __('Copyright Text') }}"
-                placeholder="{{ __('Enter Copyright Text') }}" value="{{ $setting->copyright_text }}" maxlength="1000" />
+                placeholder="{{ __('Enter Copyright Text') }}" value="{{ $setting->copyright_text }}" maxlength="1000"
+                required="true" />
         </div>
         <x-admin.update-button :text="__('Update')" />
     </form>

@@ -45,14 +45,21 @@ class GlobalSettingController extends Controller
             'editor'               => 'required',
             'address'               => 'required',
             'email'               => 'required',
+            'whatsapp'               => 'required',
+            'phone'               => 'required',
+            'channel'               => 'required',
         ], [
             'app_name.required'         => __('App name is required'),
             'editor.required'         => __('Editor Name is required'),
             'address.required'         => __('Address is required'),
             'email.required'         => __('Email is required'),
+            'whatsapp.required'         => __('Whatsapp is required'),
+            'phone.required'         => __('Phone is required'),
+            'channel.required'         => __('Channel is required'),
         ]);
 
-        foreach ($request->only('app_name', 'editor', 'address', 'email', 'whatsapp', 'phone') as $key => $value) {
+        $list = ['app_name', 'editor', 'address', 'email', 'whatsapp', 'phone', 'channel'];
+        foreach ($request->only($list) as $key => $value) {
             Setting::where('key', $key)->update(['value' => $value]);
         }
 
@@ -176,23 +183,6 @@ class GlobalSettingController extends Controller
         if ($request->file('default_avatar')) {
             $file_name = file_upload($request->default_avatar, 'uploads/custom-images/', $this->cachedSetting?->default_avatar);
             Setting::where('key', 'default_avatar')->update(['value' => $file_name]);
-        }
-
-        Cache::forget('setting');
-
-        $notification = __('Update Successfully');
-        $notification = ['messege' => $notification, 'alert-type' => 'success'];
-
-        return redirect()->back()->with($notification);
-    }
-
-    public function update_breadcrumb(Request $request)
-    {
-        checkAdminHasPermissionAndThrowException('setting.update');
-
-        if ($request->file('breadcrumb_image')) {
-            $file_name = file_upload($request->breadcrumb_image, 'uploads/custom-images/', $this->cachedSetting?->breadcrumb_image);
-            Setting::where('key', 'breadcrumb_image')->update(['value' => $file_name]);
         }
 
         Cache::forget('setting');
@@ -462,70 +452,6 @@ class GlobalSettingController extends Controller
         return redirect()->back()->with($notification);
     }
 
-    public function database_clear()
-    {
-        checkAdminHasPermissionAndThrowException('setting.view');
-
-        return view('globalsetting::database_clear');
-    }
-
-    public function database_clear_success(Request $request)
-    {
-        checkAdminHasPermissionAndThrowException('setting.update');
-
-        $request->validate(['password' => 'required'], ['password.required' => __('Password is required')]);
-
-        if (Hash::check($request->password, auth('admin')->user()->password)) {
-            // truncate all model here
-
-            Artisan::call('optimize:clear');
-
-            $notification = __('Database Cleared Successfully');
-            $notification = ['messege' => $notification, 'alert-type' => 'success'];
-        } else {
-            $notification = __('Passwords do not match.');
-            $notification = ['messege' => $notification, 'alert-type' => 'error'];
-        }
-
-        return redirect()->back()->with($notification);
-    }
-
-    public function customCode($type)
-    {
-        checkAdminHasPermissionAndThrowException('setting.view');
-        $customCode = CustomCode::first();
-        if (! $customCode) {
-            $customCode = new CustomCode();
-            $customCode->css = '//write your css code here without the style tag';
-            $customCode->header_javascript = '//write your javascript here without the script tag';
-            $customCode->body_javascript = '//write your javascript here without the script tag';
-            $customCode->footer_javascript = '//write your javascript here without the script tag';
-            $customCode->save();
-        }
-        return view('globalsetting::custom_code_' . $type, compact('customCode'));
-    }
-
-    public function customCodeUpdate(Request $request)
-    {
-        checkAdminHasPermissionAndThrowException('setting.update');
-        $validatedData = $request->validate([
-            'css'               => 'sometimes',
-            'header_javascript' => 'sometimes',
-            'body_javascript'   => 'sometimes',
-            'footer_javascript' => 'sometimes',
-        ]);
-
-        $customCode = CustomCode::firstOrNew();
-        $customCode->fill($validatedData);
-        $customCode->save();
-
-        Cache::forget('customCode');
-
-        $notification = __('Updated Successfully');
-        $notification = ['messege' => $notification, 'alert-type' => 'success'];
-
-        return redirect()->back()->with($notification);
-    }
 
     public function update_maintenance_mode_status()
     {
@@ -570,163 +496,5 @@ class GlobalSettingController extends Controller
         $notification = ['messege' => $notification, 'alert-type' => 'success'];
 
         return redirect()->back()->with($notification);
-    }
-
-    public function systemUpdate()
-    {
-        // dd(cache()->get('setting'));
-        $zipLoaded = extension_loaded('zip');
-        $updateAvailablity = null;
-
-        if (request('type') == 'check') {
-            Cache::forget('update_url');
-        }
-
-        if (function_exists('showUpdateAvailablity')) {
-            // Cache::forget('setting');
-            $updateAvailablity = showUpdateAvailablity();
-        }
-
-        $updateFileDetails = false;
-        $files = false;
-        $uploadFileSize = false;
-
-        $zipFilePath = public_path('upload/update.zip');
-        if ($updateFileDetails = File::exists($zipFilePath)) {
-            $uploadFileSize = File::size($zipFilePath);
-
-            $files = $this->getFilesFromZip($zipFilePath);
-        }
-
-        return view('globalsetting::auto-update', compact('updateAvailablity', 'updateFileDetails', 'uploadFileSize', 'files', 'zipLoaded'));
-    }
-
-    public function systemUpdateStore(Request $request)
-    {
-        $request->validate([
-            'zip_file' => 'required|mimes:zip',
-        ]);
-
-        $zipFilePath = public_path('upload/update.zip');
-
-        if (File::exists($zipFilePath)) {
-            File::delete($zipFilePath);
-        }
-
-        // Store the uploaded file
-        $zipFile = $request->file('zip_file');
-        $zipFilePath = $zipFile->move(public_path('upload'), 'update.zip');
-
-        if (!$this->isFirstDirUpload($zipFilePath)) {
-            File::delete($zipFilePath);
-            $notification = __('Invalid Update File Structure');
-            $notification = ['messege' => $notification, 'alert-type' => 'error'];
-            return redirect()->back()->with($notification);
-        }
-
-        return back();
-    }
-
-    public function systemUpdateRedirect()
-    {
-        $zipFilePath = public_path('upload/update.zip');
-
-        $zip = new ZipArchive;
-        if ($zip->open($zipFilePath) !== true) {
-            File::delete($zipFilePath);
-            $notification = __('Corrupted Zip File');
-            $notification = ['messege' => $notification, 'alert-type' => 'error'];
-            $zip->close();
-            return redirect()->back()->with($notification);
-        }
-
-        if (!$this->isFirstDirUpload($zipFilePath)) {
-            $notification = __('Invalid Update File Structure');
-            $notification = ['messege' => $notification, 'alert-type' => 'error'];
-            $zip->close();
-            return redirect()->back()->with($notification);
-        }
-
-        $zip->close();
-
-        $this->deleteFolderAndFiles(base_path('update'));
-
-        if ($zip->open($zipFilePath) === true) {
-            $zip->extractTo(base_path());
-            $zip->close();
-        }
-
-        return redirect(url('/update'));
-    }
-
-    public function systemUpdateDelete()
-    {
-        $zipFilePath = public_path('upload/update.zip');
-        File::delete($zipFilePath);
-
-        $this->deleteFolderAndFiles(base_path('update'));
-
-        $notification = __('Deleted Successfully');
-        $notification = ['messege' => $notification, 'alert-type' => 'success'];
-        return back()->with($notification);
-    }
-
-    private function getFilesFromZip($zipFilePath)
-    {
-        $files = [];
-        $zip = new ZipArchive;
-        if ($zip->open($zipFilePath) === true) {
-            for ($i = 0; $i < $zip->numFiles; $i++) {
-                $fileInfo = $zip->statIndex($i);
-                $files[] = $fileInfo['name'];
-            }
-        }
-        $zip->close();
-        return $files;
-    }
-
-    private function deleteFolderAndFiles($dir)
-    {
-        if (!is_dir($dir)) {
-            return;
-        }
-
-        $files = array_diff(scandir($dir), ['.', '..']);
-
-        foreach ($files as $file) {
-            $path = $dir . '/' . $file;
-
-            if (is_dir($path)) {
-                $this->deleteFolderAndFiles($path);
-            } else {
-                unlink($path);
-            }
-        }
-
-        rmdir($dir);
-    }
-
-    private function isFirstDirUpload($zipFilePath)
-    {
-        $zip = new ZipArchive;
-        if ($zip->open($zipFilePath) === TRUE) {
-            $firstDir = null;
-
-            for ($i = 0; $i < $zip->numFiles; $i++) {
-                $fileInfo = $zip->statIndex($i);
-                $filePathParts = explode('/', $fileInfo['name']);
-
-                if (count($filePathParts) > 1) {
-                    $firstDir = $filePathParts[0];
-                    break;
-                }
-            }
-
-            $zip->close();
-            return $firstDir === "update";
-        }
-
-        $zip->close();
-        return false;
     }
 }
