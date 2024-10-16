@@ -13,6 +13,10 @@ use Spatie\Permission\Models\Role;
 class AdminController extends Controller
 {
     use RedirectHelperTrait;
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
 
     public function index()
     {
@@ -23,14 +27,13 @@ class AdminController extends Controller
         return view('admin.admin-list.admin')->with([
             'admins' => $admins,
         ]);
-
     }
 
     public function create()
     {
         checkAdminHasPermissionAndThrowException('admin.create');
-        $roles = Role::where('name','!=','Super Admin')->get();
-        if(!$roles->count()){
+        $roles = Role::where('name', '!=', 'Super Admin')->get();
+        if (!$roles->count()) {
             $notification = __('No role found! First, create at least one role. Then, create the admin.');
             $notification = ['messege' => $notification, 'alert-type' => 'warning'];
 
@@ -79,7 +82,7 @@ class AdminController extends Controller
     {
         checkAdminHasPermissionAndThrowException('admin.edit');
         $admin = Admin::notSuperAdmin()->findOrFail($id);
-        $roles = Role::where('name','!=','Super Admin')->get();
+        $roles = Role::where('name', '!=', 'Super Admin')->get();
 
         return view('admin.admin-list.edit_admin', compact('roles', 'admin'));
     }
@@ -90,7 +93,7 @@ class AdminController extends Controller
         $admin = Admin::notSuperAdmin()->find($id);
         $rules = [
             'name' => 'required',
-            'email' => 'required|unique:admins,email,'.$admin->id,
+            'email' => 'required|unique:admins,email,' . $admin->id,
             'password' => 'nullable|min:4',
             'status' => 'required',
             'role' => 'required|array',

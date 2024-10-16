@@ -11,18 +11,25 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RolesController extends Controller {
+class RolesController extends Controller
+{
     use RedirectHelperTrait;
 
-    public function index() {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
+    public function index()
+    {
         checkAdminHasPermissionAndThrowException('role.view');
         $roles = Role::where('name', '!=', 'Super Admin')->paginate(15);
         $admins_exists = Admin::notSuperAdmin()->whereStatus('active')->count();
 
-        return view('admin.roles.index', compact('roles','admins_exists'));
+        return view('admin.roles.index', compact('roles', 'admins_exists'));
     }
 
-    public function create() {
+    public function create()
+    {
         checkAdminHasPermissionAndThrowException('role.create');
         $permissions = Permission::all();
         $permission_groups = Admin::getPermissionGroup();
@@ -30,7 +37,8 @@ class RolesController extends Controller {
         return view('admin.roles.create', compact('permissions', 'permission_groups'));
     }
 
-    public function store(RoleFormRequest $request) {
+    public function store(RoleFormRequest $request)
+    {
         checkAdminHasPermissionAndThrowException('role.store');
         $role = Role::create(['name' => $request->name]);
         if (!empty($request->permissions)) {
@@ -40,7 +48,8 @@ class RolesController extends Controller {
         return $this->redirectWithMessage(RedirectType::CREATE->value, 'admin.role.index');
     }
 
-    public function edit($id) {
+    public function edit($id)
+    {
         checkAdminHasPermissionAndThrowException('role.edit');
         $role = Role::where('name', '!=', 'Super Admin')->where('id', $id)->first();
         abort_if(!$role, 403);
@@ -50,7 +59,8 @@ class RolesController extends Controller {
         return view('admin.roles.edit', compact('permissions', 'permission_groups', 'role'));
     }
 
-    public function update(RoleFormRequest $request, $id) {
+    public function update(RoleFormRequest $request, $id)
+    {
         checkAdminHasPermissionAndThrowException('role.update');
         $role = Role::where('name', '!=', 'Super Admin')->where('id', $id)->first();
         abort_if(!$role, 403);
@@ -63,7 +73,8 @@ class RolesController extends Controller {
         return $this->redirectWithMessage(RedirectType::UPDATE->value, 'admin.role.index');
     }
 
-    public function destroy($id) {
+    public function destroy($id)
+    {
         checkAdminHasPermissionAndThrowException('role.delete');
         $role = Role::where('name', '!=', 'Super Admin')->where('id', $id)->first();
         abort_if(!$role, 403);
@@ -74,7 +85,8 @@ class RolesController extends Controller {
         return $this->redirectWithMessage(RedirectType::DELETE->value, 'admin.role.index');
     }
 
-    public function assignRoleView() {
+    public function assignRoleView()
+    {
         checkAdminHasPermissionAndThrowException('role.assign');
         $admins = Admin::notSuperAdmin()->whereStatus('active')->get();
         $roles = Role::where('name', '!=', 'Super Admin')->get();
@@ -82,7 +94,8 @@ class RolesController extends Controller {
         return view('admin.roles.assign-role', compact('admins', 'roles'));
     }
 
-    public function getAdminRoles($id) {
+    public function getAdminRoles($id)
+    {
         $admin = Admin::notSuperAdmin()->find($id);
         $options = "<option value='' disabled>" . __('Select Role') . '</option>';
         if ($admin) {
@@ -103,7 +116,8 @@ class RolesController extends Controller {
         ]);
     }
 
-    public function assignRoleUpdate(Request $request) {
+    public function assignRoleUpdate(Request $request)
+    {
         checkAdminHasPermissionAndThrowException('role.assign');
 
         $messages = [

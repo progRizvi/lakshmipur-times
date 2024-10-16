@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Advertise;
 use App\Models\Video;
 use App\Rules\CustomRecaptcha;
 use Illuminate\Http\Request;
@@ -20,7 +21,10 @@ class WebsiteController extends Controller
         $secondMost = News::where('status', 1)->where('latest', 1)->orderBy('id', 'desc')->skip(1)->limit(2)->get();
         $newses = News::where('status', 1)->where('show_homepage', 1)->orderBy('id', 'desc')->skip(3)->limit(6)->get();
         $videos = Video::where('status', 1)->get();
-        return view('website.index', compact('mostLatestNews', 'secondMost', 'newses', 'videos'));
+
+        $singleAdvertise = Advertise::where('position', 'single')->where('status', 1)->first();
+        $doubleAdvertise = Advertise::where('position', 'double')->where('status', 1)->get();
+        return view('website.index', compact('mostLatestNews', 'secondMost', 'newses', 'videos', 'singleAdvertise', 'doubleAdvertise'));
     }
 
     public function search()

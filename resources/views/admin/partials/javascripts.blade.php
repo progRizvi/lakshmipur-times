@@ -3,8 +3,8 @@
 <script src="{{ asset('backend/js/bootstrap.bundle.min.js') }}"></script>
 <script src="{{ asset('backend/js/jquery.nicescroll.min.js') }}"></script>
 <script src="{{ asset('backend/js/moment.min.js') }}"></script>
-<script src="{{ asset('backend/js/stisla.js') }}?v={{$setting?->version}}"></script>
-<script src="{{ asset('backend/js/scripts.js') }}?v={{$setting?->version}}"></script>
+<script src="{{ asset('backend/js/stisla.js') }}?v={{ $setting?->version }}"></script>
+<script src="{{ asset('backend/js/scripts.js') }}?v={{ $setting?->version }}"></script>
 <script src="{{ asset('backend/js/select2.min.js') }}"></script>
 <script src="{{ asset('backend/js/tagify.js') }}"></script>
 <script src="{{ asset('global/toastr/toastr.min.js') }}"></script>
@@ -16,7 +16,8 @@
 <script src="{{ asset('backend/js/iziToast.min.js') }}"></script>
 <script src="{{ asset('backend/js/modules-toastr.js') }}"></script>
 <script src="{{ asset('backend/tinymce/js/tinymce/tinymce.min.js') }}"></script>
-<script src="{{ asset('backend/js/custom.js') }}?v={{$setting?->version}}"></script>
+<script src="{{ asset('backend/js/jquery.uploadPreview.min.js') }}"></script>
+<script src="{{ asset('backend/js/custom.js') }}?v={{ $setting?->version }}"></script>
 
 <script>
     @session('messege')
@@ -45,3 +46,16 @@
         </script>
     @endforeach
 @endif
+
+<script>
+    function setupImagePreview(input, previewId, label = "{{ __('Image') }}") {
+        $.uploadPreview({
+            input_field: `#${input}`,
+            preview_box: `#${previewId}`,
+            label_default: label,
+            label_selected: label,
+            no_label: false,
+            success_callback: null
+        });
+    }
+</script>

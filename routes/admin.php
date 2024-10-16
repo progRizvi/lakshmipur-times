@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AddonsController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdvertiseController;
 use App\Http\Controllers\Admin\Auth\AuthenticatedSessionController;
 /*  Start Admin panel Controller  */
 use App\Http\Controllers\Admin\Auth\NewPasswordController;
@@ -31,6 +32,8 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
     Route::middleware(['auth:admin'])->group(function () {
         Route::get('/', [DashboardController::class, 'dashboard']);
         Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+        Route::get('advertise', [AdvertiseController::class, 'index'])->name('advertise.index');
+        Route::post('advertise/update', [AdvertiseController::class, 'update'])->name('advertise.update');
 
         Route::controller(AdminProfileController::class)->group(function () {
             Route::get('edit-profile', 'edit_profile')->name('edit-profile');

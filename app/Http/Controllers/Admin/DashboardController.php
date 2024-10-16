@@ -8,6 +8,10 @@ use Modules\Language\app\Models\Language;
 
 class DashboardController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+    }
     public function dashboard(Request $request)
     {
         // remove intended url from session
@@ -16,7 +20,8 @@ class DashboardController extends Controller
         return view('admin.dashboard');
     }
 
-    public function setLanguage() {
+    public function setLanguage()
+    {
         $action = setLanguage(request('code'));
 
         if ($action) {
@@ -30,7 +35,8 @@ class DashboardController extends Controller
 
         return redirect()->back()->with($notification);
     }
-    public function setCurrency() {
+    public function setCurrency()
+    {
         $currency = allCurrencies()->where('currency_code', request('currency'))->first();
 
         if (session()->has('currency_code')) {

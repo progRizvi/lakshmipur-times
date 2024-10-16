@@ -81,13 +81,16 @@
                         </div>
                         <hr class="my-5 h-[2px] bg-gray-300" />
 
+                        @if ($singleAdvertise != null)
+                            <div class="w-full mx-auto">
+                                <a href="{{ $singleAdvertise->link ?? 'javascript:;' }}">
+                                    <img class="w-full h-auto" src="{{ asset($singleAdvertise->image) }}" alt="বিজ্ঞাপণ" />
+                                    <p class="text-center mt-1">{{ $singleAdvertise->title }}</p>
+                                </a>
+                            </div>
+                        @endif
                         <!-- advertisement start -->
-                        <div class="w-full mx-auto">
-                            <a href="#">
-                                <img class="w-full h-auto" src="/src/images/banner.jpg" alt="বিজ্ঞাপণ" />
-                                <p class="text-center mt-1">Advertisement</p>
-                            </a>
-                        </div>
+
                         <!-- advertisement end -->
                         <!-- Newses end -->
                     </div>
@@ -135,19 +138,18 @@
                     </div>
                     <!-- videos end -->
 
-                    <!-- advertisement start -->
-                    <div class="flex items-center justify-center gap-5 mt-4">
-                        <div class="h-auto">
-                            <a href="#">
-                                <img class="h-auto w-full" src="/src/images/banner.jpg" alt="advertisement" />
-                            </a>
+                    @if ($doubleAdvertise != null)
+                        <!-- advertisement start -->
+                        <div class="flex items-center justify-center gap-5 mt-4">
+                            @foreach ($doubleAdvertise as $ad)
+                                <div class="h-auto">
+                                    <a href="{{ $ad->link ?? 'javascript:;' }}">
+                                        <img class="h-auto w-full" src="{{ asset($ad->image) }}" alt="advertisement" />
+                                    </a>
+                                </div>
+                            @endforeach
                         </div>
-                        <div class="h-auto">
-                            <a href="#">
-                                <img class="h-auto w-full" src="/src/images/banner.jpg" alt="advertisement" />
-                            </a>
-                        </div>
-                    </div>
+                    @endif
                     <!-- advertisement end -->
                 </div>
             </div>

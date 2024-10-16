@@ -55,6 +55,12 @@
 
             @endif
 
+            <li class="{{ isRoute('admin.advertise.index', 'active') }}">
+                <a class="nav-link" href="{{ route('admin.advertise.index') }}"><i class="fas fa-ad"></i>
+                    <span>{{ __('Advertise') }}</span>
+                </a>
+            </li>
+
             <li class="{{ isRoute('admin.video*', 'active') }}">
                 <a class="nav-link" href="{{ route('admin.video.index') }}"><i class="fas fa-video fa-fw"></i>
                     <span>{{ __('Video') }}</span>
