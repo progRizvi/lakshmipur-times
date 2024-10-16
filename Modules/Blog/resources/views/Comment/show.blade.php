@@ -27,7 +27,7 @@
                                         @foreach ($comments as $comment)
                                             <li class="media">
                                                 <img alt="image" class="me-3 rounded-circle" width="70"
-                                                    src="{{ asset('uploads\website-images\avatar-2023-11-05-08-21-19-9394.jpg') }}">
+                                                    src="{{ asset($setting->default_avatar) }}">
                                                 <div class="media-body">
                                                     <div class="media-right">
                                                         @if ($comment->status == 1)
@@ -70,7 +70,7 @@
 @push('js')
     <script>
         function deleteData(id) {
-            $("#deleteForm").attr("action", '{{ url('/admin/news-comment/') }}' + "/" + id)
+            $("#deleteForm").attr("action", '{{ route('/admin/news-comment/') }}' + "/" + id)
         }
     </script>
 @endpush

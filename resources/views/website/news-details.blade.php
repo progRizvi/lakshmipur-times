@@ -135,7 +135,7 @@
                             <!-- Comment Item -->
 
                             @php
-                                $parentsComment = $news->comments->where('parent_id', 0);
+                                $parentsComment = $news->comments->where('parent_id', 0)->where('status', 1);
                             @endphp
 
                             @foreach ($parentsComment as $comment)

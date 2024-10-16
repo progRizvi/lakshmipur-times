@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\Blog\app\Http\Controllers\NewsCategoryController;
+use Modules\Blog\app\Http\Controllers\NewsCommentController;
 use Modules\Blog\app\Http\Controllers\NewsController;
 
 Route::middleware(['auth:admin', 'translation'])
@@ -14,6 +15,6 @@ Route::middleware(['auth:admin', 'translation'])
         Route::resource('news-category', NewsCategoryController::class)->names('news-category')->except('show');
         Route::put('/news-category/status-update/{id}', [NewsCategoryController::class, 'statusUpdate'])->name('news-category.status-update');
 
-        Route::resource('news-comment', NewsCategoryController::class)->names('news-comment')->only(['index', 'show', 'destroy']);
-        Route::put('/news-comment/status-update/{id}', [NewsCategoryController::class, 'statusUpdate'])->name('news-comment.status-update');
+        Route::resource('news-comment', NewsCommentController::class)->names('news-comment')->only(['index', 'show', 'destroy']);
+        Route::put('/news-comment/status-update/{id}', [NewsCommentController::class, 'statusUpdate'])->name('news-comment.status-update');
     });
