@@ -26,7 +26,16 @@
                             <img class="h-full" src="{{ asset($setting->logo) }}" alt="" />
                         </a>
                     </div>
-                    <h1 class="py-1 max-[768px]:text-xs" id="bangla_date"></h1>
+                    @php
+                        use App\Helpers\BenglaCalender;
+
+                        // Example: English date to be converted
+                        $navDate = \Carbon\Carbon::now()->format('d F, Y');
+                        $navDate = BenglaCalender::bn_date_time($navDate);
+                    @endphp
+                    <h1 class="py-1 max-[768px]:text-xs text-white">
+                        {{ $navDate }}
+                    </h1>
                 </div>
 
                 <!-- Advertisement -->

@@ -25,6 +25,7 @@ class GlobalSettingInfoSeeder extends Seeder
             'logo' => 'uploads/website-images/logo.png',
             'timezone' => 'Asia/Dhaka',
             'date_format' => 'Y-m-d',
+            'channel' => 'https://www.youtube.com/playlist?list=PLCEH8lWGo0VEiD4Rm7FoWRCapX5XweDbU',
             'time_format' => 'h:i A',
             'favicon' => 'uploads/website-images/favicon.png',
             'copyright_text' => '© 2024, Lakshmipur Times. All Rights Reserved.',

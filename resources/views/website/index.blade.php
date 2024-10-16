@@ -129,7 +129,7 @@
                         </div>
                         <!-- more button start -->
                         <div class="text-center mt-5">
-                            <button class="px-5 py-2 button_style">আরও ≫</button>
+                            <a href="{{ $setting->channel }}" class="px-5 py-2 button_style" target="_blank">আরও ≫</a>
                         </div>
                         <!-- more button end -->
                     </div>
