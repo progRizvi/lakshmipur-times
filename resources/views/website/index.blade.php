@@ -56,106 +56,28 @@
                                     </a>
                                 </div>
                             @endforeach
-                            <!-- 2 -->
-                            {{-- <div class="border-r-2 border-gray-300 pr-2">
-                                <a href="./fulldetails.html" class="flex items-start justify-between gap-4 news_card_hover">
-                                    <div class="w-1/2">
-                                        <h1 class="text-sm mb-2 font-bold">
-                                            গাজীপুরে মহাসড়কে শ্রমিকদের বিক্ষোভ, তীব্র যানজট
-                                        </h1>
-                                        <p class="text-xs font-semibold max-[768px]:font-normal leading-5">
-                                            গাজীপুরের চান্দনা চৌরাস্তা এলাকায় ঢাকা ময়মনসিংহ
-                                            সড়ক...
-                                        </p>
-                                    </div>
-                                    <div class="w-1/2 h-full">
-                                        <img src="../src/images/road-20241001114634.webp" alt="" />
-                                    </div>
-                                </a>
-                            </div> --}}
                         </div>
                         <hr class="my-5 h-[2px] bg-gray-300" />
 
                         <!-- All news -->
                         <div class="grid grid-cols-3 max-[768px]:grid-cols-1 items-start justify-between gap-2">
                             <!-- 1 -->
-                            <div class="border-r-2 border-gray-300 pr-2">
-                                <a href="./fulldetails.html" class="flex items-start justify-between gap-4 news_card_hover">
-                                    <div class="w-1/2">
-                                        <h1 class="text-sm mb-2 font-bold">
-                                            গাজীপুরে মহাসড়কে শ্রমিকদের বিক্ষোভ, তীব্র যানজট
-                                        </h1>
-                                    </div>
-                                    <div class="w-1/2 h-full">
-                                        <img class="w-full" src="../src/images/road-20241001114634.webp" alt="" />
-                                    </div>
-                                </a>
-                            </div>
-                            <!-- 2 -->
-                            <div class="border-r-2 border-gray-300 pr-2">
-                                <a href="./fulldetails.html" class="flex items-start justify-between gap-4 news_card_hover">
-                                    <div class="w-1/2">
-                                        <h1 class="text-sm mb-2 font-bold">
-                                            গাজীপুরে মহাসড়কে শ্রমিকদের বিক্ষোভ, তীব্র যানজট
-                                        </h1>
-                                    </div>
-                                    <div class="w-1/2 h-full">
-                                        <img class="w-full" src="../src/images/road-20241001114634.webp" alt="" />
-                                    </div>
-                                </a>
-                            </div>
-                            <!-- 3 -->
-                            <div class="border-r-2 border-gray-300 pr-2">
-                                <a href="./fulldetails.html" class="flex items-start justify-between gap-4 news_card_hover">
-                                    <div class="w-1/2">
-                                        <h1 class="text-sm mb-2 font-bold">
-                                            গাজীপুরে মহাসড়কে শ্রমিকদের বিক্ষোভ, তীব্র যানজট
-                                        </h1>
-                                    </div>
-                                    <div class="w-1/2 h-full">
-                                        <img class="w-full" src="../src/images/road-20241001114634.webp" alt="" />
-                                    </div>
-                                </a>
-                            </div>
-                            <!-- 4 -->
-                            <div class="border-r-2 border-gray-300 pr-2">
-                                <a href="./fulldetails.html" class="flex items-start justify-between gap-4 news_card_hover">
-                                    <div class="w-1/2">
-                                        <h1 class="text-sm mb-2 font-bold">
-                                            গাজীপুরে মহাসড়কে শ্রমিকদের বিক্ষোভ, তীব্র যানজট
-                                        </h1>
-                                    </div>
-                                    <div class="w-1/2 h-full">
-                                        <img class="w-full" src="../src/images/road-20241001114634.webp" alt="" />
-                                    </div>
-                                </a>
-                            </div>
-                            <!-- 5 -->
-                            <div class="border-r-2 border-gray-300 pr-2">
-                                <a href="./fulldetails.html" class="flex items-start justify-between gap-4 news_card_hover">
-                                    <div class="w-1/2">
-                                        <h1 class="text-sm mb-2 font-bold">
-                                            গাজীপুরে মহাসড়কে শ্রমিকদের বিক্ষোভ, তীব্র যানজট
-                                        </h1>
-                                    </div>
-                                    <div class="w-1/2 h-full">
-                                        <img class="w-full" src="../src/images/road-20241001114634.webp" alt="" />
-                                    </div>
-                                </a>
-                            </div>
-                            <!-- 6 -->
-                            <div class="border-r-2 border-gray-300 pr-2">
-                                <a href="./fulldetails.html" class="flex items-start justify-between gap-4 news_card_hover">
-                                    <div class="w-1/2">
-                                        <h1 class="text-sm mb-2 font-bold">
-                                            গাজীপুরে মহাসড়কে শ্রমিকদের বিক্ষোভ, তীব্র যানজট
-                                        </h1>
-                                    </div>
-                                    <div class="w-1/2 h-full">
-                                        <img class="w-full" src="../src/images/road-20241001114634.webp" alt="" />
-                                    </div>
-                                </a>
-                            </div>
+                            @foreach ($newses as $news)
+                                <div class="border-r-2 border-gray-300 pr-2">
+                                    <a href="{{ route('news.details', $news->slug) }}"
+                                        class="flex items-start justify-between gap-4 news_card_hover">
+                                        <div class="w-1/2">
+                                            <h1 class="text-sm mb-2 font-bold">
+                                                {{ $news->title }}
+                                            </h1>
+                                        </div>
+                                        <div class="w-1/2 h-full">
+                                            <img class="w-full" src="{{ asset($news->image) }}"
+                                                alt="{{ $news->title }}" />
+                                        </div>
+                                    </a>
+                                </div>
+                            @endforeach
                         </div>
                         <hr class="my-5 h-[2px] bg-gray-300" />
 
