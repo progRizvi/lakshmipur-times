@@ -15,7 +15,6 @@
                         </div>
                         <!-- top news -->
                         <div>
-
                             <a href="{{ route('news.details', $mostLatestNews->slug) }}"
                                 class="flex max-[768px]:flex-col-reverse items-start justify-between gap-4 hover:[&>div>img]:scale-110 news_card_hover">
                                 <div class="w-1/2 max-[768px]:w-full">
@@ -28,7 +27,7 @@
                                     </p>
                                 </div>
                                 <div class="w-1/2 max-[768px]:w-full overflow-hidden">
-                                    <img class="w-full transition-all duration-500"
+                                    <img class="w-full transition-all duration-500 featured-img"
                                         src="{{ asset($mostLatestNews->image) }}" alt="{{ $mostLatestNews->title }}" />
                                 </div>
                             </a>
@@ -51,7 +50,8 @@
                                             </p>
                                         </div>
                                         <div class="w-1/2 h-full">
-                                            <img src="{{ asset($post->image) }}" alt="{{ $post->title }}" />
+                                            <img src="{{ asset($post->image) }}" alt="{{ $post->title }}"
+                                                class="second-section-img" />
                                         </div>
                                     </a>
                                 </div>
@@ -84,7 +84,8 @@
                         @if ($singleAdvertise != null)
                             <div class="w-full mx-auto">
                                 <a href="{{ $singleAdvertise->link ?? 'javascript:;' }}">
-                                    <img class="w-full h-auto" src="{{ asset($singleAdvertise->image) }}" alt="বিজ্ঞাপণ" />
+                                    <img class="w-full ad" src="{{ asset($singleAdvertise->image) }}"
+                                        alt="{{ $singleAdvertise->title }}" />
                                     <p class="text-center mt-1">{{ $singleAdvertise->title }}</p>
                                 </a>
                             </div>
@@ -131,9 +132,11 @@
                             <!-- 2 -->
                         </div>
                         <!-- more button start -->
-                        <div class="text-center mt-5">
-                            <a href="{{ $setting->channel }}" class="px-5 py-2 button_style" target="_blank">আরও ≫</a>
-                        </div>
+                        @if ($setting->channel)
+                            <div class="text-center mt-5">
+                                <a href="{{ $setting->channel }}" class="px-5 py-2 button_style" target="_blank">আরও ≫</a>
+                            </div>
+                        @endif
                         <!-- more button end -->
                     </div>
                     <!-- videos end -->
@@ -144,7 +147,7 @@
                             @foreach ($doubleAdvertise as $ad)
                                 <div class="h-auto">
                                     <a href="{{ $ad->link ?? 'javascript:;' }}">
-                                        <img class="h-auto w-full" src="{{ asset($ad->image) }}" alt="advertisement" />
+                                        <img class="ad w-full" src="{{ asset($ad->image) }}" alt="{{ $ad->title }}" />
                                     </a>
                                 </div>
                             @endforeach

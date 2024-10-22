@@ -7,6 +7,7 @@
     <link rel="shortcut icon" href="{{ asset($setting->favicon) }}" type="image/x-icon" />
     <link rel="stylesheet" href="{{ asset('website/css/all.min.css') }}" />
     <link href="{{ asset('website/css/style.css') }}" rel="stylesheet" />
+    <link href="{{ asset('website/css/dev.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
     <title>{{ $setting->app_name }}</title>
 </head>
