@@ -13,3 +13,13 @@ img,
     height: 450px;
     object-fit: cover;
 }
+
+@media print {
+    img[src^="data:image/"] {
+        display: none !important;
+    }
+
+    span.remove {
+        display: none !important;
+    }
+}

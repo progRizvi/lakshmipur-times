@@ -41,13 +41,13 @@
                 <!-- Advertisement -->
                 <div class="h-full">
                     <a href="#">
-                        <img class="h-full" src="/src/images/care-logo.jpeg" alt="" />
+                        <img class="h-full print:hidden" src="/src/images/care-logo.jpeg" alt="" />
                     </a>
                 </div>
             </div>
             <!-- header top Logo & addvertisement end -->
 
-            <div>
+            <div class="print:hidden">
                 <!--  -->
                 <!-- Menu items start -->
                 <div class="bg-slate-800 px-5 py-2">

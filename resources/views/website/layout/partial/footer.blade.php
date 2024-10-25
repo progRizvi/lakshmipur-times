@@ -1,6 +1,6 @@
 <footer class="px-4 pt-5">
     <div class="container mx-auto">
-        <div class="footer_section border-t-2 border-[#387478]">
+        <div class="footer_section print:hidden border-t-2 border-[#387478]">
             <!-- First Row: Logo and Editor's Name -->
             <div class="flex max-[768px]:flex-col items-center justify-between gap-5 mb-4">
                 <!-- Logo -->
@@ -96,6 +96,36 @@
                     <p>{{ $setting->copyright_text }}</p>
                 </div>
                 <!-- copyright end -->
+            </div>
+        </div>
+
+        <div class="hidden print:block border-t border-[#387478]">
+            <div class="text-center py-3">
+                <p>{{ $setting->address }}</p>
+            </div>
+
+            <div class="py-3 bg-gray-200 text-black flex items-center justify-center gap-5 text-xl">
+                <div>
+                    <p>Email: {{ $setting->email }}</p>
+                </div>
+                <div>
+                    <p>Web: lakshmipurtimes.com</p>
+                </div>
+            </div>
+
+            <div class="py-3 flex items-center justify-center gap-5">
+                <div>
+                    <p>প্রকাশকঃ মেহরাজ উদ্দিন রবিন</p>
+                </div>
+                <div>
+                    <p>সম্পাদকঃ আনিস কবির</p>
+                </div>
+            </div>
+
+            <div class="py-3 text-center">
+                <div>
+                    <p>{{ $setting->copyright_text }}</p>
+                </div>
             </div>
         </div>
     </div>

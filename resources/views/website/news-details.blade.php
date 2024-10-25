@@ -1,6 +1,6 @@
 @extends('website.layout.layout')
 @section('content')
-    <section class="p-5">
+    <section class="p-5 print:hidden">
         <div class="container mx-auto">
             <div class="details_section">
                 <!-- detais start -->
@@ -50,22 +50,40 @@
                                 <div id="toggle_share_items"
                                     class="w-[147px] bg-white p-2 absolute top-full shadow-md rounded-md hidden">
                                     <div class="grid grid-cols-3 items-center justify-between gap-3">
-                                        <button title="Share"
-                                            class="py-2 px-3 max-[640px]:py-3 button_style max-[640px]:text-xs flex items-center justify-center">
-                                            <i class="fas fa-facebook-f"></i>
-                                        </button>
-                                        <button title="Share"
-                                            class="py-2 px-3 max-[640px]:py-3 button_style max-[640px]:text-xs flex items-center justify-center">
-                                            <i class="fas fa-instagram"></i>
-                                        </button>
-                                        <button title="Share"
-                                            class="py-2 px-3 max-[640px]:py-3 button_style max-[640px]:text-xs flex items-center justify-center">
-                                            <i class="fas fa-whatsapp"></i>
-                                        </button>
-                                        <button title="Share"
-                                            class="py-2 px-3 max-[640px]:py-3 button_style max-[640px]:text-xs flex items-center justify-center">
-                                            <i class="fas fa-youtube"></i>
-                                        </button>
+                                        <a title="Share on Facebook"
+                                            href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}"
+                                            class="py-2 px-3 max-[640px]:py-3 button_style max-[640px]:text-xs flex items-center justify-center"
+                                            target="_blank">
+                                            <i class="fab fa-facebook-f"></i>
+                                        </a>
+
+                                        <a title="Share on Instagram"
+                                            href="https://www.instagram.com/?url={{ urlencode(url()->current()) }}"
+                                            class="py-2 px-3 max-[640px]:py-3 button_style max-[640px]:text-xs flex items-center justify-center"
+                                            target="_blank">
+                                            <i class="fab fa-instagram"></i>
+                                        </a>
+
+                                        <a title="Share on WhatsApp"
+                                            href="https://api.whatsapp.com/send?text={{ urlencode(url()->current()) }}"
+                                            class="py-2 px-3 max-[640px]:py-3 button_style max-[640px]:text-xs flex items-center justify-center"
+                                            target="_blank">
+                                            <i class="fab fa-whatsapp"></i>
+                                        </a>
+
+                                        <a title="Share on YouTube"
+                                            href="https://www.youtube.com/share?u={{ urlencode(url()->current()) }}"
+                                            class="py-2 px-3 max-[640px]:py-3 button_style max-[640px]:text-xs flex items-center justify-center"
+                                            target="_blank">
+                                            <i class="fab fa-youtube"></i>
+                                        </a>
+
+                                        <a title="Share on Messenger"
+                                            href="https://www.facebook.com/dialog/send?link={{ urlencode(url()->current()) }}"
+                                            class="py-2 px-3 max-[640px]:py-3 button_style max-[640px]:text-xs flex items-center justify-center"
+                                            target="_blank">
+                                            <i class="fab fa-facebook-messenger"></i>
+                                        </a>
                                     </div>
                                 </div>
                                 <!-- share media end -->
@@ -77,7 +95,8 @@
                                 <i class="fas fa-print"></i>
                             </button>
                             <button title="Copy"
-                                class="py-3 px-3 button_style max-[640px]:text-xs flex items-center justify-center">
+                                class="py-3 px-3 button_style max-[640px]:text-xs flex items-center justify-center"
+                                onclick="handleCopy()">
                                 <i class="fas fa-copy"></i>
                             </button>
                         </div>
@@ -176,6 +195,33 @@
             </div>
         </div>
     </section>
+
+
+    <section class="p-5 hidden print:block">
+        <div class="container mx-auto">
+            <div class="print_section">
+                <div>
+                    <h1 class="pages_header">
+                        {{ $news->title }}
+                    </h1>
+                </div>
+
+                <!-- print text start -->
+                <div class="columns-2 gap-5">
+                    <div class="w-full h-[250px] mb-5">
+                        <img class="w-full h-full object-cover" src="{{ asset($news->image) }}"
+                            alt="{{ $news->title }}" />
+                    </div>
+                    <div>
+                        <p class="text-base text-justify">
+                            {!! $news->description !!}
+                        </p>
+                    </div>
+                </div>
+                <!-- print text end -->
+            </div>
+        </div>
+    </section>
 @endsection
 
 
@@ -237,7 +283,22 @@
                     console.log(parentId);
                     $("[name='parent_id']").val(parentId);
                 })
+
+
+                $('span').each(function(index, ele) {
+                    if ($(this).text().trim() === 'Ad') {
+                        // $(this).remove();
+                        $(this).addClass('remove');
+                    }
+                });
+
             });
         })(jQuery);
+
+
+        function handleCopy() {
+            navigator.clipboard.writeText(window.location.href);
+            toastr.success("Link Copied to clipboard");
+        }
     </script>
 @endpush
