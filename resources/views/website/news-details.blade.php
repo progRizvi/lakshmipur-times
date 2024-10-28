@@ -158,10 +158,10 @@
                             @endphp
 
                             @foreach ($parentsComment as $comment)
-                                <div class="flex items-start space-x-4">
+                                <div class="flex items-start space-x-4 max-[500px]:space-x-2">
                                     <img class="w-10 h-10 rounded-full" src="{{ asset($setting->default_avatar) }}"
                                         alt="User Avatar" />
-                                    <div class="flex-1 bg-gray-100 p-3 rounded-lg">
+                                    <div class="flex-1 bg-gray-100 p-3 max-[500px]:p-2 rounded-lg">
                                         <div class="flex justify-between items-center">
                                             <h3 class="text-sm font-semibold">{{ $comment->name }}</h3>
                                             <span class="text-xs text-gray-500">
@@ -173,13 +173,15 @@
                                         </p>
 
                                         <!-- Reply form -->
-                                        <div class="mt-4">
-                                            <a href="#blogCommentForm" data-id="{{ $comment->id }}" class="reply">
+                                        <div class="flex justify-end">
+                                            <a href="#blogCommentForm" data-id="{{ $comment->id }}"
+                                                class="text-sm px-3 py-1 bg-gray-500 text-white font-semibold rounded-md shadow-md hover:bg-gray-600 transition reply">
                                                 <span><i class="fas fa-share"></i></span>
                                                 {{ __('Reply') }}</a>
                                         </div>
 
-                                        <div class="mt-4 space-y-4">
+
+                                        <div class="mt-4 space-y-4 max-[500px]:space-x-2">
                                             @include('components.comment-reply', [
                                                 'replies' => $comment->children,
                                             ])
@@ -187,6 +189,8 @@
                                     </div>
                                 </div>
                             @endforeach
+
+
                         </div>
                     </div>
                     <!-- comment section end -->

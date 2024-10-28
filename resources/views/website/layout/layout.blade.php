@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="{{ asset($setting->favicon) }}" type="image/x-icon" />
     <link rel="stylesheet" href="{{ asset('website/css/all.min.css') }}" />
+    @vite('resources/css/app.css')
     <link href="{{ asset('website/css/style.css') }}" rel="stylesheet" />
     <link href="{{ asset('website/css/dev.css') }}" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">

@@ -27,7 +27,7 @@
                     @endif
                 @endforeach
 
-                <div class="mb-10 grid grid-cols-2 gap-5">
+                <div class="mb-10 grid grid-cols-1 sm:grid-cols-2 gap-5 justify-center">
                     @foreach ($teams as $index => $team)
                         @if ($index == 0)
                             @continue
@@ -43,6 +43,7 @@
                         </div>
                     @endforeach
                 </div>
+
             </div>
         </div>
     </section>
