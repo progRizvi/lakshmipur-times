@@ -17,9 +17,10 @@ class AdvertiseController extends Controller
      */
     public function index()
     {
+        $topAdvertise = Advertise::where('position', 'top')->first();
         $singleAdvertise = Advertise::where('position', 'single')->first();
         $doubleAdvertise = Advertise::where('position', 'double')->get();
-        return view('admin.pages.advertise.index', compact('singleAdvertise', 'doubleAdvertise'));
+        return view('admin.pages.advertise.index', compact('singleAdvertise', 'doubleAdvertise', 'topAdvertise'));
     }
 
 
@@ -28,7 +29,22 @@ class AdvertiseController extends Controller
      */
     public function update(Request $request)
     {
-        if ($request->position == 'single') {
+
+        if ($request->position == 'top') {
+            $singleAdvertise = Advertise::where('position', 'top')->first();
+            if (!$singleAdvertise) {
+                $singleAdvertise = new Advertise();
+            }
+            $singleAdvertise->status = $request->status;
+            $singleAdvertise->link = $request->link;
+            $singleAdvertise->position = 'top';
+            $singleAdvertise->title = $request->title;
+            if ($request->hasFile('image')) {
+                $image = file_upload($request->image, 'uploads/custom-images/', $singleAdvertise?->image);
+                $singleAdvertise->image = $image;
+            }
+            $singleAdvertise->save();
+        } else if ($request->position == 'single') {
             $singleAdvertise = Advertise::where('position', 'single')->first();
             if (!$singleAdvertise) {
                 $singleAdvertise = new Advertise();
@@ -42,7 +58,7 @@ class AdvertiseController extends Controller
                 $singleAdvertise->image = $image;
             }
             $singleAdvertise->save();
-        } else {
+        } else if ('double') {
             foreach ($request->title as $key => $status) {
                 $doubleAdvertise = Advertise::where('position', 'double')->where('id', $key)->first();
                 if (!$doubleAdvertise) {

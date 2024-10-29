@@ -15,6 +15,51 @@
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
+                                <div class="section-title mt-0">Top Advertise</div>
+                                <form action="{{ route('admin.advertise.update') }}" method="post"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="position" value="top">
+                                    <input type="hidden" name="id" value="{{ $topAdvertise?->id }}">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label>{{ __('Image') }}</label>
+                                                <div id="preview-top" class="image-preview w-100"
+                                                    @if (!empty($topAdvertise?->image)) style="background-image: url({{ asset($topAdvertise?->image) }}); background-size: cover; background-position: center center;" @endif>
+                                                    <label for="upload-top" id="label-top">{{ __('Image') }}</label>
+                                                    <input type="file" name="image" id="upload-top">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <x-admin.form-input name="link" label="{{ __('Link') }}"
+                                                    :value="$topAdvertise?->link" />
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <x-admin.form-input name="title" label="{{ __('Title') }}"
+                                                    :value="$topAdvertise?->title" />
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <x-admin.form-switch name="status" label="{{ __('Status') }}"
+                                                :value="$topAdvertise?->status" checked="{{ $topAdvertise?->status }}" />
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="form-group">
+                                                <x-admin.save-button />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
                                 <div class="section-title mt-0">Single Advertise</div>
                                 <form action="{{ route('admin.advertise.update') }}" method="post"
                                     enctype="multipart/form-data">
@@ -31,16 +76,19 @@
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <x-admin.form-input name="link" label="{{ __('Link') }}" />
+                                                <x-admin.form-input name="link" label="{{ __('Link') }}"
+                                                    :value="$singleAdvertise?->link" />
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div class="form-group">
-                                                <x-admin.form-input name="title" label="{{ __('Title') }}" />
+                                                <x-admin.form-input name="title" label="{{ __('Title') }}"
+                                                    :value="$singleAdvertise?->title" />
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <x-admin.form-switch name="status" label="{{ __('Status') }}" />
+                                            <x-admin.form-switch name="status" label="{{ __('Status') }}"
+                                                :value="$singleAdvertise?->status" checked="{{ $singleAdvertise?->status }}" />
                                         </div>
 
                                         <div class="col-6">
@@ -99,7 +147,8 @@
                                                         <!-- Status Switch -->
                                                         <div class="col-6">
                                                             <label class="custom-switch mt-2">
-                                                                <input type="checkbox" name="status[{{ $advertise->id }}]"
+                                                                <input type="checkbox"
+                                                                    name="status[{{ $advertise->id }}]"
                                                                     class="custom-switch-input"
                                                                     {{ $advertise->status ? 'checked' : '' }}>
                                                                 <span class="custom-switch-indicator"></span>
@@ -210,6 +259,7 @@
         setupImagePreview('image-upload', 'image-preview', 'Update Image')
         setupImagePreview('upload-1', 'preview-1', 'Update Image');
         setupImagePreview('upload-2', 'preview-2', 'Update Image');
+        setupImagePreview('upload-top', 'preview-top', 'Update Image');
     </script>
 @endpush
 

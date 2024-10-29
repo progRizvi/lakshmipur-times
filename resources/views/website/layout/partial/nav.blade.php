@@ -11,6 +11,9 @@
 
     $currentPath = explode('/', $currentPath);
     $currentPath = end($currentPath);
+
+    use App\Models\Advertise;
+    $topAd = Advertise::where('position', 'top')->first();
 @endphp
 
 
@@ -40,8 +43,8 @@
 
                 <!-- Advertisement -->
                 <div class="h-full">
-                    <a href="#">
-                        <img class="h-full print:hidden" src="/src/images/care-logo.jpeg" alt="" />
+                    <a href="{{ $topAd?->link }}">
+                        <img class="h-full print:hidden" src="{{ asset($topAd?->image) }}" alt="" />
                     </a>
                 </div>
             </div>
