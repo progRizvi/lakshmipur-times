@@ -10,33 +10,85 @@
 
             <div class="section-body">
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-info">
+                                <i class="far fa-newspaper"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>{{ __('Total News') }}</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{ $data['totalNews'] }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-sm-6 col-12">
+                        <div class="card card-statistic-1">
+                            <div class="card-icon bg-info">
+                                <i class="far fa-user"></i>
+                            </div>
+                            <div class="card-wrap">
+                                <div class="card-header">
+                                    <h4>{{ __('Total Team Members') }}</h4>
+                                </div>
+                                <div class="card-body">
+                                    {{ $data['teamMembers'] }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-12 col-sm-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <h4>{{ __('Recent Orders') }}</h4>
+                                <div class="card-header-action">
+                                    <a href="{{ route('admin.news.index') }}"
+                                        class="btn btn-primary">{{ __('View All') }}</a>
+                                </div>
+                            </div>
+
+                            <div class="p-0 card-body">
+                                <div class="table-responsive">
+                                    <table class="table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>{{ __('Title') }}</th>
+                                                <th>{{ __('Reporter') }}</th>
+                                                <th>{{ __('Thana') }}</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @forelse ($data['recentNews'] as $news)
+                                                <tr>
+                                                    <td><a href="{{ route('news.details', $news->slug) }}"
+                                                            target="_blank">{{ $news->title }}</a>
+                                                    </td>
+                                                    <td>
+                                                        {{ $news->reporter }}
+                                                    </td>
+                                                    <td>{{ $news->city?->name }}</td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="4">{{ __('No data found') }}</td>
+                                                </tr>
+                                            @endforelse
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
     </div>
 @endsection
-
-@push('js')
-    <script>
-        $(document).ready(function() {
-            "use strict";
-            var alertKey = 'updateAvailablityAlert';
-            var dismissedTimestamp = localStorage.getItem(alertKey);
-
-            if (!dismissedTimestamp || Date.now() - dismissedTimestamp > 24 * 60 * 60 * 1000) {
-                $('#updateAvailablityAlert').removeClass('d-none');
-                $('#updateAvailablityAlert').show();
-            } else {
-                $('#updateAvailablityAlert').hide();
-            }
-
-            $(document).on('click', '#updateAvailablityAlertClose', function() {
-                $('#updateAvailablityAlert').hide();
-                localStorage.setItem(alertKey, Date.now());
-            });
-        });
-    </script>
-@endpush

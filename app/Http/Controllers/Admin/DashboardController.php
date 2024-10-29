@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Modules\Blog\app\Models\News;
 use Modules\Language\app\Models\Language;
+use Modules\OurTeam\app\Models\OurTeam;
 
 class DashboardController extends Controller
 {
@@ -17,7 +19,12 @@ class DashboardController extends Controller
         // remove intended url from session
         $request->session()->forget('url');
 
-        return view('admin.dashboard');
+        $data['recentNews'] = News::latest()->take(5)->get();
+        $data['totalNews'] = News::count();
+        $data['teamMembers'] = OurTeam::count();
+
+
+        return view('admin.dashboard', compact('data'));
     }
 
     public function setLanguage()
