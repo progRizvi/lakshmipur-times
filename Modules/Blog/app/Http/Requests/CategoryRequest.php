@@ -21,6 +21,7 @@ class CategoryRequest extends FormRequest
 
         if ($this->isMethod('put')) {
             $rules['code'] = 'required|string';
+            $rules['slug'] = 'nullable';
         }
         if ($this->isMethod('post')) {
             $rules['slug'] = 'required|string|max:255';

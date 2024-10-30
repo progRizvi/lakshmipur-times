@@ -13,9 +13,9 @@ enum DefaultMenusEnum: string
 
         $all_default_menus = [
             (object) ['name' => __('প্রথম পাতা'), 'url' => '/'],
-            (object) ['name' => __('আমরা'), 'url' => '/about-us'],
+            (object) ['name' => __('আমরা'), 'url' => '/team'],
             (object) ['name' => __('যোগাযোগ'), 'url' => '/contact-us'],
-            (object) ['name' => __('বিজ্ঞাপণ'), 'url' => '/advertise'],
+            (object) ['name' => __('উপজেলা'), 'url' => '/upazila'],
         ];
 
         // categories
