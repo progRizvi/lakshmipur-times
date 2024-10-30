@@ -11,15 +11,19 @@
                 <div>
                     <div class="grid grid-cols-3 max-[1024px]:grid-cols-2 max-[600px]:grid-cols-1 items-start justify-between gap-5"
                         id="news-container">
-                        {{-- @foreach ($news as $post)
-                            @include('components.news-item', ['post' => $post])
-                        @endforeach --}}
                         @include('components.news-pagination')
                     </div>
 
-                    <div class="text-center mt-5">
-                        <button class="px-5 py-2 button_style" id="load-more">আরও ≫</button>
-                    </div>
+                    @if (!($news->count() > 0))
+                        <div class="text-center mt-5">
+                            <h1 class="text-3xl font-bold">কোন খবর নেই</h1>
+                        </div>
+                    @endif
+                    @if ($news->count() > 0)
+                        <div class="text-center mt-5">
+                            <button class="px-5 py-2 button_style" id="load-more">আরও ≫</button>
+                        </div>
+                    @endif
                 </div>
                 <!-- news cards end -->
             </div>

@@ -15,6 +15,7 @@ Route::get('/news/{slug}', [WebsiteController::class, 'newsDetails'])->name('new
 Route::post('/comment/post', [WebsiteController::class, 'commentPost'])->name('comment.post');
 Route::get('pages/{slug}', [WebsiteController::class, 'pages'])->name('pages');
 Route::get('team', [WebsiteController::class, 'team'])->name('team');
+Route::get('upazila', [WebsiteController::class, 'upazila'])->name('upazila');
 Route::get('contact-us', [WebsiteController::class, 'contact'])->name('contact');
 
 Route::get('/dashboard', function () {

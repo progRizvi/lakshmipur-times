@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Advertise;
+use App\Models\City;
 use App\Models\Video;
 use App\Rules\CustomRecaptcha;
 use Illuminate\Http\Request;
@@ -49,7 +50,7 @@ class WebsiteController extends Controller
         }
         $title = 'অনুসন্ধান ফলাফল';
         $news->with('city');
-        $news = $news->paginate(1);
+        $news = $news->paginate(9);
         $news->appends(request()->all());
 
         if (request()->ajax()) {
@@ -68,13 +69,35 @@ class WebsiteController extends Controller
     public function category($slug)
     {
         $category = Category::where('slug', $slug)->where('status', 1)->firstOrFail();
-        $news = $category->news()->with('city')->paginate(1);
+        $news = $category->news()->with('city')->paginate(9);
         $title = $category->title;
 
         if (request()->ajax()) {
             return view('components.news-pagination', compact('news'))->render();
         }
         return view('website.search', compact('category', 'news', 'title'));
+    }
+
+    public function upazila(Request $request)
+    {
+        $news = News::query();
+        if (request()->thana) {
+            $news = $news->whereHas('city', function ($q) {
+                $q->where('name', 'like', '%' . strtolower(request()->thana) . '%');
+            });
+        }
+        $title = 'উপজেলা';
+        $news->with('city');
+        $news = $news->paginate(9);
+        $news->appends(request()->all());
+
+        $upazilas = City::all();
+
+        if (request()->ajax()) {
+            return view('components.news-pagination', compact('news'))->render();
+        }
+
+        return view('website.upazila', compact('title', 'news', 'upazilas'));
     }
 
     public function commentPost(Request $request)
